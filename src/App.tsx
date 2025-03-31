@@ -26,8 +26,8 @@ function App() {
     video.preload = "auto";
     
     const sources = [
-      "https://raw.githubusercontent.com/vaibhavmule/anime/main/rickroll.mp4", // Primary GitHub source
-      "https://github.com/vaibhavmule/anime/raw/main/rickroll.mp4" // Fallback GitHub source
+      "https://raw.githubusercontent.com/vaibhavmule/anime/main/video.mp4", // Primary GitHub source
+      "https://github.com/vaibhavmule/anime/raw/main/video.mp4" // Fallback GitHub source
     ];
 
     video.addEventListener('canplaythrough', () => {
@@ -139,8 +139,8 @@ function App() {
             loop
             controls
             className="w-full max-w-lg rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border-4 border-white/30"
-            src="https://raw.githubusercontent.com/vaibhavmule/anime/main/rickroll.mp4"
-            aria-label="Rick Astley Never Gonna Give You Up music video"
+            src="https://raw.githubusercontent.com/vaibhavmule/anime/main/video.mp4"
+            aria-label="Anime transformation video"
           />
         ) : (
           <div className="w-full max-w-lg h-[300px] bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">

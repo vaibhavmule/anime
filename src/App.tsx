@@ -26,8 +26,7 @@ function App() {
     video.preload = "auto";
     
     const sources = [
-      "https://raw.githubusercontent.com/vaibhavmule/anime/main/video.mp4", // Primary GitHub source
-      "https://github.com/vaibhavmule/anime/raw/main/video.mp4" // Fallback GitHub source
+      "https://res.cloudinary.com/lifemaker/video/upload/v1743460689/video_u3ddgz.mp4" // Cloudinary video source
     ];
 
     video.addEventListener('canplaythrough', () => {
@@ -138,8 +137,9 @@ function App() {
             autoPlay 
             loop
             controls
+            crossOrigin="anonymous"
             className="w-full max-w-lg rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border-4 border-white/30"
-            src="https://raw.githubusercontent.com/vaibhavmule/anime/main/video.mp4"
+            src="https://res.cloudinary.com/lifemaker/video/upload/v1743460689/video_u3ddgz.mp4"
             aria-label="Anime transformation video"
           />
         ) : (
@@ -256,7 +256,7 @@ function App() {
             <div className="bg-gradient-to-br from-purple-100 to-pink-100 p-4 rounded-2xl flex flex-col items-center text-center space-y-2 hover:scale-105 transition-transform duration-300">
               <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden">
                 <img 
-                  src="https://raw.githubusercontent.com/vaibhavmule/anime/33351955e29682c4aa72bd5c802ea901e2dcb050/IMG_9A9532D025FC-1.jpeg" 
+                  src="https://res.cloudinary.com/lifemaker/image/upload/v1743460662/IMG_9A9532D025FC-1_qvi0kl.jpg" 
                   alt="Example of a regular selfie before anime transformation"
                   className="absolute inset-0 w-full h-full object-cover object-[center_70%]"
                   loading="lazy"
@@ -270,7 +270,7 @@ function App() {
             <div className="bg-gradient-to-br from-pink-100 to-red-100 p-4 rounded-2xl flex flex-col items-center text-center space-y-2 hover:scale-105 transition-transform duration-300">
               <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden">
                 <img 
-                  src="https://github.com/vaibhavmule/anime/blob/main/ChatGPT%20Image%20Apr%201,%202025,%2012_37_23%20AM.png?raw=true" 
+                  src="https://res.cloudinary.com/lifemaker/image/upload/v1743460664/ChatGPT_Image_Apr_1_2025_12_37_23_AM_fmvyh1.png" 
                   alt="Example of an anime-style transformed selfie"
                   className="absolute inset-0 w-full h-full object-cover object-[center_60%]"
                   loading="lazy"

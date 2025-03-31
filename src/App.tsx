@@ -8,6 +8,9 @@ function App() {
   const [currentStage, setCurrentStage] = useState(0);
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [isBeforeImageLoaded, setIsBeforeImageLoaded] = useState(false);
+  const [isAfterImageLoaded, setIsAfterImageLoaded] = useState(false);
 
   const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
   const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
@@ -78,6 +81,21 @@ function App() {
     };
   }, [isLoading]);
 
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && showRickroll) {
+        setShowRickroll(false);
+        setIsLoading(false);
+        setProgress(0);
+        setCurrentStage(0);
+        setError(null);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [showRickroll]);
+
   const validateFile = (file: File): string | null => {
     if (file.size > MAX_FILE_SIZE) {
       return "file too big! keep it under 10MB 💅";
@@ -86,6 +104,35 @@ function App() {
       return "we only accept PNG, JPG, GIF, or WEBP! 💅";
     }
     return null;
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      const file = e.dataTransfer.files[0];
+      const validationError = validateFile(file);
+      
+      if (validationError) {
+        setError(validationError);
+        return;
+      }
+
+      setIsLoading(true);
+      setProgress(0);
+      setCurrentStage(0);
+    }
   };
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -143,14 +190,22 @@ function App() {
             aria-label="Anime transformation video"
           />
         ) : (
-          <div className="w-full max-w-lg h-[300px] bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+          <div className="w-full max-w-lg h-[300px] bg-white/20 backdrop-blur-sm rounded-2xl flex flex-col items-center justify-center gap-4">
             <Loader2 className="w-12 h-12 text-white animate-spin" />
+            <p className="text-white/80 text-sm">Loading the surprise...</p>
+            <div className="w-48 h-2 bg-white/20 rounded-full overflow-hidden">
+              <div className="w-full h-full bg-white/40 animate-pulse" />
+            </div>
           </div>
         )}
-        <div className="mt-6 text-xl font-bold text-white bg-black/30 px-8 py-4 rounded-2xl backdrop-blur-sm flex items-center gap-3 animate-pulse">
+        <div className="mt-8 text-xl font-bold text-white bg-black/30 px-8 py-4 rounded-2xl backdrop-blur-sm flex items-center gap-3 animate-pulse">
           <span>Happy April Fools Day!</span>
           <span className="text-2xl animate-bounce">🎉</span>
         </div>
+
+        <p className="hidden md:block mt-4 text-sm text-white/80">
+          Press <kbd className="px-2 py-1 bg-white/20 rounded-md">ESC</kbd> to try again
+        </p>
 
         <button
           onClick={handleShare}
@@ -162,13 +217,6 @@ function App() {
           <span className="text-2xl group-hover:scale-125 transition-transform duration-300">🤳</span>
         </button>
 
-        <div className="mt-6 text-center max-w-md">
-          <p className="text-sm text-white/90 bg-black/40 px-6 py-3 rounded-2xl backdrop-blur-sm border border-white/10">
-            <span role="img" aria-label="lock" className="mr-2 text-lg">🔒</span>
-            Disclaimer: We don't store or use your images. Everything happens in your browser!
-          </p>
-        </div>
-        
         {/* Built by Link */}
         <a 
           href="https://instagram.com/vaibhavmule" 
@@ -176,11 +224,15 @@ function App() {
           rel="noopener noreferrer"
           className="mt-6 flex items-center gap-2 text-white/80 hover:text-white bg-black/20 hover:bg-black/30 px-6 py-3 rounded-full backdrop-blur-sm transition-all duration-300 font-medium hover:scale-105 shadow-lg"
         >
-          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.012-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-          </svg>
           made with 🫰 by @vaibhavmule
         </a>
+
+        <div className="mt-10 text-center max-w-md">
+          <p className="text-xs text-white/90 bg-black/40 px-6 py-3 rounded-2xl backdrop-blur-sm border border-white/10">
+            <span role="img" aria-label="lock" className="mr-2 text-xs">🔒</span>
+            Disclaimer: We don't store or use your images. Everything happens in your browser!
+          </p>
+        </div>
       </div>
     );
   }
@@ -231,7 +283,14 @@ function App() {
                 </div>
               </div>
             ) : (
-              <label className="cursor-pointer flex flex-col items-center space-y-4">
+              <label 
+                className={`cursor-pointer flex flex-col items-center space-y-4 transition-all duration-300 ${
+                  isDragging ? 'bg-purple-50 scale-105' : ''
+                }`}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+              >
                 <div className="relative">
                   <Upload className="w-16 h-16 text-purple-500" />
                   <Star className="w-8 h-8 text-yellow-400 absolute -top-2 -right-2 animate-pulse" />
@@ -255,11 +314,17 @@ function App() {
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-gradient-to-br from-purple-100 to-pink-100 p-4 rounded-2xl flex flex-col items-center text-center space-y-2 hover:scale-105 transition-transform duration-300">
               <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden">
+                {!isBeforeImageLoaded && (
+                  <div className="absolute inset-0 bg-purple-100 animate-pulse" />
+                )}
                 <img 
                   src="https://res.cloudinary.com/lifemaker/image/upload/v1743460662/IMG_9A9532D025FC-1_qvi0kl.jpg" 
                   alt="Example of a regular selfie before anime transformation"
-                  className="absolute inset-0 w-full h-full object-cover object-[center_70%]"
+                  className={`absolute inset-0 w-full h-full object-cover object-[center_70%] transition-opacity duration-300 ${
+                    isBeforeImageLoaded ? 'opacity-100' : 'opacity-0'
+                  }`}
                   loading="lazy"
+                  onLoad={() => setIsBeforeImageLoaded(true)}
                 />
               </div>
               <div className="flex items-center justify-center gap-2">
@@ -269,11 +334,17 @@ function App() {
             </div>
             <div className="bg-gradient-to-br from-pink-100 to-red-100 p-4 rounded-2xl flex flex-col items-center text-center space-y-2 hover:scale-105 transition-transform duration-300">
               <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden">
+                {!isAfterImageLoaded && (
+                  <div className="absolute inset-0 bg-pink-100 animate-pulse" />
+                )}
                 <img 
                   src="https://res.cloudinary.com/lifemaker/image/upload/v1743460664/ChatGPT_Image_Apr_1_2025_12_37_23_AM_fmvyh1.png" 
                   alt="Example of an anime-style transformed selfie"
-                  className="absolute inset-0 w-full h-full object-cover object-[center_60%]"
+                  className={`absolute inset-0 w-full h-full object-cover object-[center_60%] transition-opacity duration-300 ${
+                    isAfterImageLoaded ? 'opacity-100' : 'opacity-0'
+                  }`}
                   loading="lazy"
+                  onLoad={() => setIsAfterImageLoaded(true)}
                 />
               </div>
               <div className="flex items-center justify-center gap-2">

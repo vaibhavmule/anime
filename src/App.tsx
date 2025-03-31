@@ -241,7 +241,7 @@ function App() {
           href="https://instagram.com/vaibhavmule" 
           target="_blank" 
           rel="noopener noreferrer"
-          className="fixed bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 text-white/80 hover:text-white bg-black/20 hover:bg-black/30 px-6 py-3 rounded-full backdrop-blur-sm transition-all duration-300 font-medium hover:scale-105 shadow-lg z-50"
+          className="mt-6 flex items-center gap-2 text-white/80 hover:text-white bg-black/20 hover:bg-black/30 px-6 py-3 rounded-full backdrop-blur-sm transition-all duration-300 font-medium hover:scale-105 shadow-lg"
         >
           made with 🫰 by @vaibhavmule
         </a>
@@ -402,7 +402,7 @@ function App() {
         href="https://instagram.com/vaibhavmule" 
         target="_blank" 
         rel="noopener noreferrer"
-        className="fixed bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 text-white/80 hover:text-white bg-black/20 hover:bg-black/30 px-6 py-3 rounded-full backdrop-blur-sm transition-all duration-300 font-medium hover:scale-105 shadow-lg z-50"
+        className="mt-6 flex items-center gap-2 text-white/80 hover:text-white bg-black/20 hover:bg-black/30 px-6 py-3 rounded-full backdrop-blur-sm transition-all duration-300 font-medium hover:scale-105 shadow-lg"
       >
         made with 🫰 by @vaibhavmule
       </a>

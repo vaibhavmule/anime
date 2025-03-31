@@ -262,7 +262,7 @@ function App() {
       <div className="w-full max-w-md bg-white/90 backdrop-blur-lg rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] p-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-            ✨ Anime-ify Your Selfie! ✨
+            ✨ Free AI Anime Generator ✨
           </h1>
           <p className="text-purple-600 mt-2 font-medium">
             this AI be bussin no cap 🔥

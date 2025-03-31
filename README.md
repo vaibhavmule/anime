@@ -2,6 +2,8 @@
 
 A playful April Fools' Day web application that masquerades as an AI-powered anime filter but delivers a classic rickroll instead! Built with React, TypeScript, and TailwindCSS.
 
+🌐 **Live Demo**: [https://anime-vibe.vercel.app/](https://anime-vibe.vercel.app/)
+
 ## 🎯 Features
 
 - Beautiful, modern UI with gradient backgrounds and glassmorphism effects

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Upload, Image as ImageIcon, Loader2, Sparkles, Star, Palette, Share2, AlertCircle } from 'lucide-react';
 
 function App() {
@@ -8,7 +8,6 @@ function App() {
   const [currentStage, setCurrentStage] = useState(0);
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
 
   const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
   const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
@@ -27,8 +26,8 @@ function App() {
     video.preload = "auto";
     
     const sources = [
-      "https://ia801509.us.archive.org/10/items/Rick_Astley_Never_Gonna_Give_You_Up/Rick_Astley_Never_Gonna_Give_You_Up.mp4",
-      "https://www.youtube.com/watch?v=dQw4w9WgXcQ" // Fallback source
+      "https://raw.githubusercontent.com/vaibhavmule/anime/main/rickroll.mp4", // Primary GitHub source
+      "https://github.com/vaibhavmule/anime/raw/main/rickroll.mp4" // Fallback GitHub source
     ];
 
     video.addEventListener('canplaythrough', () => {
@@ -109,17 +108,17 @@ function App() {
 
   const handleShare = async () => {
     const shareData = {
-      title: 'OMG! I got rickrolled! 🤪',
-      text: 'try this anime filter prank! it be bussin 🔥',
-      url: window.location.href
+      title: 'Gibhili Style Photo Image for Free 🎨',
+      text: 'Turn your photo into a cute anime picture! Just upload your photo and watch the magic happen ✨',
+      url: 'https://anime-vibe.vercel.app/'
     };
 
     try {
       if (navigator.share) {
         await navigator.share(shareData);
       } else {
-        await navigator.clipboard.writeText(window.location.href);
-        alert('Link copied! Share this prank! ✨');
+        await navigator.clipboard.writeText('https://anime-vibe.vercel.app/');
+        alert('Link copied! Share this fun app! ✨');
       }
     } catch (err) {
       console.error('Error sharing:', err);
@@ -136,12 +135,11 @@ function App() {
         </div>
         {isVideoReady ? (
           <video 
-            ref={videoRef}
             autoPlay 
             loop
             controls
             className="w-full max-w-lg rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border-4 border-white/30"
-            src="https://ia801509.us.archive.org/10/items/Rick_Astley_Never_Gonna_Give_You_Up/Rick_Astley_Never_Gonna_Give_You_Up.mp4"
+            src="https://raw.githubusercontent.com/vaibhavmule/anime/main/rickroll.mp4"
             aria-label="Rick Astley Never Gonna Give You Up music video"
           />
         ) : (

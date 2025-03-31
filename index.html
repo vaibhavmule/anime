@@ -2,13 +2,16 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>✨ Make Your Photo Look Like Anime! 🎨</title>
     
     <!-- Primary Meta Tags -->
     <meta name="title" content="✨ Make Your Photo Look Like Anime! 🎨">
     <meta name="description" content="Turn your photo into a cute anime picture! Just upload your photo and watch the magic happen ✨">
+    <meta name="keywords" content="anime filter, photo editor, april fools, rickroll, anime style">
+    <meta name="author" content="Vaibhav Mule">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -16,6 +19,7 @@
     <meta property="og:title" content="✨ Make Your Photo Look Like Anime! 🎨">
     <meta property="og:description" content="Turn your photo into a cute anime picture! Just upload your photo and watch the magic happen ✨">
     <meta property="og:image" content="https://raw.githubusercontent.com/vaibhavmule/anime/main/ChatGPT%20Image%20Apr%201,%202025,%2012_37_23%20AM.png?raw=true">
+    <meta property="og:site_name" content="Anime Filter Rickroll">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
@@ -23,10 +27,29 @@
     <meta property="twitter:title" content="✨ Make Your Photo Look Like Anime! 🎨">
     <meta property="twitter:description" content="Turn your photo into a cute anime picture! Just upload your photo and watch the magic happen ✨">
     <meta property="twitter:image" content="https://raw.githubusercontent.com/vaibhavmule/anime/main/ChatGPT%20Image%20Apr%201,%202025,%2012_37_23%20AM.png?raw=true">
+    <meta property="twitter:creator" content="@vaibhavmule">
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#9333EA">
     
     <!-- Module preload polyfill -->
     <script type="module">
       import 'vite/modulepreload-polyfill'
+    </script>
+
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+              console.log('ServiceWorker registration successful');
+            })
+            .catch(err => {
+              console.log('ServiceWorker registration failed: ', err);
+            });
+        });
+      }
     </script>
   </head>
   <body>

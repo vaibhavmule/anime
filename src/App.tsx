@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Upload, Image as ImageIcon, Loader2, Sparkles, Star, Palette, Share2, AlertCircle } from 'lucide-react';
+import { Analytics } from '@vercel/analytics/react';
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -11,6 +12,7 @@ function App() {
   const [isDragging, setIsDragging] = useState(false);
   const [isBeforeImageLoaded, setIsBeforeImageLoaded] = useState(false);
   const [isAfterImageLoaded, setIsAfterImageLoaded] = useState(false);
+  const [currentSourceIndex, setCurrentSourceIndex] = useState(0);
 
   const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
   const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
@@ -23,32 +25,45 @@ function App() {
     "finishing up to make you slay... ✨"
   ];
 
+  const sources = [
+    "https://res.cloudinary.com/lifemaker/video/upload/v1743460689/video_u3ddgz.mp4", // Primary Cloudinary source
+    "https://ia801509.us.archive.org/10/items/Rick_Astley_Never_Gonna_Give_You_Up/Rick_Astley_Never_Gonna_Give_You_Up.mp4", // Archive.org backup
+    "/video.mp4" // Local backup
+  ];
+
+  const tryNextSource = () => {
+    if (currentSourceIndex < sources.length - 1) {
+      setCurrentSourceIndex(prev => prev + 1);
+    } else {
+      console.error('All video sources failed to load');
+      setIsVideoReady(true); // Still show the video even if all sources fail
+    }
+  };
+
   // Preload video
   useEffect(() => {
     const video = document.createElement('video');
     video.preload = "auto";
     
-    const sources = [
-      "https://res.cloudinary.com/lifemaker/video/upload/v1743460689/video_u3ddgz.mp4" // Cloudinary video source
-    ];
+    const handleError = (e: Event) => {
+      console.error('Video loading failed:', e);
+      tryNextSource();
+    };
 
     video.addEventListener('canplaythrough', () => {
       setIsVideoReady(true);
     });
 
-    video.addEventListener('error', () => {
-      console.error('Video loading failed');
-      setIsVideoReady(true); // Still show the video even if preloading fails
-    });
+    video.addEventListener('error', handleError);
 
-    // Try loading the first source
-    video.src = sources[0];
+    // Try loading the current source
+    video.src = sources[currentSourceIndex];
 
     return () => {
       video.removeEventListener('canplaythrough', () => {});
-      video.removeEventListener('error', () => {});
+      video.removeEventListener('error', handleError);
     };
-  }, []);
+  }, [currentSourceIndex]);
 
   useEffect(() => {
     let interval: number;
@@ -186,7 +201,11 @@ function App() {
             controls
             crossOrigin="anonymous"
             className="w-full max-w-lg rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border-4 border-white/30"
-            src="https://res.cloudinary.com/lifemaker/video/upload/v1743460689/video_u3ddgz.mp4"
+            src={sources[currentSourceIndex]}
+            onError={(e) => {
+              console.error('Video playback error:', e);
+              tryNextSource();
+            }}
             aria-label="Anime transformation video"
           />
         ) : (
@@ -222,7 +241,7 @@ function App() {
           href="https://instagram.com/vaibhavmule" 
           target="_blank" 
           rel="noopener noreferrer"
-          className="mt-6 flex items-center gap-2 text-white/80 hover:text-white bg-black/20 hover:bg-black/30 px-6 py-3 rounded-full backdrop-blur-sm transition-all duration-300 font-medium hover:scale-105 shadow-lg"
+          className="fixed bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 text-white/80 hover:text-white bg-black/20 hover:bg-black/30 px-6 py-3 rounded-full backdrop-blur-sm transition-all duration-300 font-medium hover:scale-105 shadow-lg z-50"
         >
           made with 🫰 by @vaibhavmule
         </a>
@@ -239,6 +258,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-400 to-red-400 flex flex-col items-center justify-center p-4 relative">
+      <Analytics />
       <div className="w-full max-w-md bg-white/90 backdrop-blur-lg rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] p-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
@@ -382,7 +402,7 @@ function App() {
         href="https://instagram.com/vaibhavmule" 
         target="_blank" 
         rel="noopener noreferrer"
-        className="mt-6 flex items-center gap-2 text-white/80 hover:text-white bg-black/20 hover:bg-black/30 px-6 py-3 rounded-full backdrop-blur-sm transition-all duration-300 font-medium hover:scale-105 shadow-lg"
+        className="fixed bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 text-white/80 hover:text-white bg-black/20 hover:bg-black/30 px-6 py-3 rounded-full backdrop-blur-sm transition-all duration-300 font-medium hover:scale-105 shadow-lg z-50"
       >
         made with 🫰 by @vaibhavmule
       </a>

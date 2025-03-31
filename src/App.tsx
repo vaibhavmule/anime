@@ -1,39 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Upload, Image as ImageIcon, Loader2, Sparkles, Star, Palette, Share2, AlertCircle } from 'lucide-react';
 
-// Function to safely increment counter
-const incrementCounter = async () => {
-  try {
-    const response = await fetch('https://guiding-oarfish-51764.upstash.io/incr/rickroll-counter', {
-      method: 'POST',
-      headers: {
-        'Authorization': 'Bearer Aco0AAIjcDFmOTEyYzFmNDQ1ODE0NmExODk2YTk1MDA0NzExOGQ0NHAxMA'
-      }
-    });
-    const data = await response.json();
-    return data.result;
-  } catch (err) {
-    console.error('Error incrementing counter:', err);
-    return null;
-  }
-};
-
-// Function to safely get counter
-const getCounter = async () => {
-  try {
-    const response = await fetch('https://guiding-oarfish-51764.upstash.io/get/rickroll-counter', {
-      headers: {
-        'Authorization': 'Bearer Aco0AAIjcDFmOTEyYzFmNDQ1ODE0NmExODk2YTk1MDA0NzExOGQ0NHAxMA'
-      }
-    });
-    const data = await response.json();
-    return data.result;
-  } catch (err) {
-    console.error('Error fetching counter:', err);
-    return 0;
-  }
-};
-
 function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [showRickroll, setShowRickroll] = useState(false);
@@ -41,9 +8,7 @@ function App() {
   const [currentStage, setCurrentStage] = useState(0);
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [rickrollCount, setRickrollCount] = useState<number>(0);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const hasIncrementedRef = useRef(false);
 
   const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
   const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
@@ -114,29 +79,6 @@ function App() {
       clearInterval(interval);
     };
   }, [isLoading]);
-
-  // Add counter increment when rickroll is shown
-  useEffect(() => {
-    if (showRickroll && !hasIncrementedRef.current) {
-      const updateCounter = async () => {
-        const newCount = await incrementCounter();
-        if (newCount !== null) {
-          setRickrollCount(newCount);
-          hasIncrementedRef.current = true;
-        }
-      };
-      updateCounter();
-    }
-  }, [showRickroll]);
-
-  // Fetch initial count
-  useEffect(() => {
-    const fetchCount = async () => {
-      const count = await getCounter();
-      setRickrollCount(Number(count) || 0);
-    };
-    fetchCount();
-  }, []);
 
   const validateFile = (file: File): string | null => {
     if (file.size > MAX_FILE_SIZE) {
@@ -241,10 +183,6 @@ function App() {
           </svg>
           made with 🫰 by @vaibhavmule
         </a>
-        {/* Rickroll Counter */}
-        <div className="mt-2 text-xs text-white/90 bg-black/30 px-3 py-1.5 rounded-lg backdrop-blur-sm">
-          <span className="font-bold">{rickrollCount.toLocaleString()}</span> people got rickrolled! 🎯
-        </div>
       </div>
     );
   }

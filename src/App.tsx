@@ -51,9 +51,9 @@ function App() {
             setShowRickroll(true);
             return 100;
           }
-          return prev + 1; // Slower progress increment
+          return prev + 2; // Increased increment to reach 100% faster
         });
-      }, 20); // Adjusted interval for smoother progress
+      }, 50); // Adjusted interval for smoother progress
 
       const stageInterval = setInterval(() => {
         setCurrentStage((prev) => {
@@ -63,7 +63,7 @@ function App() {
           }
           return prev + 1;
         });
-      }, 400); // Adjusted stage interval to match 2-second total
+      }, 1000); // Adjusted stage interval to match total time
     }
 
     return () => {

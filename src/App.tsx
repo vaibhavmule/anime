@@ -164,9 +164,19 @@ function App() {
   if (showRickroll) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-400 to-red-400 flex flex-col items-center justify-center p-4 text-center relative">
+        {isVideoLoaded && (
+          <>
+            <div className="animate-bounce mb-8">
+              <h1 className="text-4xl font-black text-white drop-shadow-lg bg-black/20 px-8 py-4 rounded-2xl backdrop-blur-sm">
+                Siike! You got rickrolled! 🤪
+              </h1>
+            </div>
+          </>
+        )}
         <video 
           autoPlay 
           loop
+          playsInline
           controls
           crossOrigin="anonymous"
           className="w-full max-w-lg rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border-4 border-white/30"
@@ -182,11 +192,6 @@ function App() {
         />
         {isVideoLoaded && (
           <>
-            <div className="animate-bounce mt-8">
-              <h1 className="text-4xl font-black mb-4 text-white drop-shadow-lg bg-black/20 px-8 py-4 rounded-2xl backdrop-blur-sm">
-                OMG! You got rickrolled! 🤪
-              </h1>
-            </div>
             <div className="mt-8 text-xl font-bold text-white bg-black/30 px-8 py-4 rounded-2xl backdrop-blur-sm flex items-center gap-3 animate-pulse">
               <span>Happy April Fools Day!</span>
               <span className="text-2xl animate-bounce">🎉</span>

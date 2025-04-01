@@ -170,7 +170,6 @@ function App() {
         <video 
           autoPlay 
           loop
-          playsInline
           controls
           crossOrigin="anonymous"
           className="w-full max-w-lg rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border-4 border-white/30"

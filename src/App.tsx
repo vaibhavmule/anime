@@ -13,6 +13,7 @@ function App() {
   const [isBeforeImageLoaded, setIsBeforeImageLoaded] = useState(false);
   const [isAfterImageLoaded, setIsAfterImageLoaded] = useState(false);
   const [currentSourceIndex, setCurrentSourceIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
   const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
@@ -111,6 +112,22 @@ function App() {
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [showRickroll]);
 
+  // Add useEffect for mobile detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.matchMedia('(max-width: 768px)').matches);
+    };
+    
+    // Initial check
+    checkMobile();
+    
+    // Add listener for window resize
+    window.addEventListener('resize', checkMobile);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const validateFile = (file: File): string | null => {
     if (file.size > MAX_FILE_SIZE) {
       return "file too big! keep it under 10MB 💅";
@@ -198,6 +215,7 @@ function App() {
           <video 
             autoPlay 
             loop
+            muted={isMobile}
             controls
             crossOrigin="anonymous"
             className="w-full max-w-lg rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border-4 border-white/30"

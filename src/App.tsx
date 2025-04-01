@@ -12,7 +12,6 @@ function App() {
   const [isBeforeImageLoaded, setIsBeforeImageLoaded] = useState(false);
   const [isAfterImageLoaded, setIsAfterImageLoaded] = useState(false);
   const [currentSourceIndex, setCurrentSourceIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
 
   const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
   const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
@@ -84,22 +83,6 @@ function App() {
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [showRickroll]);
-
-  // Add useEffect for mobile detection
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.matchMedia('(max-width: 768px)').matches);
-    };
-    
-    // Initial check
-    checkMobile();
-    
-    // Add listener for window resize
-    window.addEventListener('resize', checkMobile);
-    
-    // Cleanup
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   const validateFile = (file: File): string | null => {
     if (file.size > MAX_FILE_SIZE) {

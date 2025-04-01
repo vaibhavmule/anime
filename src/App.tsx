@@ -187,39 +187,21 @@ function App() {
             OMG! You got rickrolled! 🤪
           </h1>
         </div>
-        {isVideoReady ? (
-          <video 
-            autoPlay 
-            loop
-            muted={isMobile}
-            playsInline
-            controls
-            crossOrigin="anonymous"
-            className="w-full max-w-lg rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border-4 border-white/30"
-            src={sources[currentSourceIndex]}
-            onError={(e) => {
-              console.error('Video playback error:', e);
-              tryNextSource();
-            }}
-            onLoadedData={() => {
-              console.log('Video data loaded');
-              setIsVideoReady(true);
-            }}
-            onCanPlay={() => {
-              console.log('Video can play');
-              setIsVideoReady(true);
-            }}
-            aria-label="Anime transformation video"
-          />
-        ) : (
-          <div className="w-full max-w-lg h-[300px] bg-white/20 backdrop-blur-sm rounded-2xl flex flex-col items-center justify-center gap-4">
-            <Loader2 className="w-12 h-12 text-white animate-spin" />
-            <p className="text-white/80 text-sm">Loading the surprise... {isMobile ? '(Mobile)' : '(Desktop)'}</p>
-            <div className="w-48 h-2 bg-white/20 rounded-full overflow-hidden">
-              <div className="w-full h-full bg-white/40 animate-pulse" />
-            </div>
-          </div>
-        )}
+        <video 
+          autoPlay 
+          loop
+          muted={isMobile}
+          playsInline
+          controls
+          crossOrigin="anonymous"
+          className="w-full max-w-lg rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border-4 border-white/30"
+          src={sources[currentSourceIndex]}
+          onError={(e) => {
+            console.error('Video playback error:', e);
+            tryNextSource();
+          }}
+          aria-label="Anime transformation video"
+        />
         <div className="mt-8 text-xl font-bold text-white bg-black/30 px-8 py-4 rounded-2xl backdrop-blur-sm flex items-center gap-3 animate-pulse">
           <span>Happy April Fools Day!</span>
           <span className="text-2xl animate-bounce">🎉</span>

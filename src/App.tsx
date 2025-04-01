@@ -35,37 +35,12 @@ function App() {
   const tryNextSource = () => {
     if (currentSourceIndex < sources.length - 1) {
       setCurrentSourceIndex(prev => prev + 1);
+      setIsVideoReady(false); // Reset video ready state when trying next source
     } else {
       console.error('All video sources failed to load');
       setIsVideoReady(true); // Still show the video even if all sources fail
     }
   };
-
-  // Preload video
-  useEffect(() => {
-    const video = document.createElement('video');
-    video.preload = "auto";
-    
-    const handleError = (e: Event) => {
-      console.error('Video loading failed:', e);
-      tryNextSource();
-    };
-
-    video.addEventListener('canplaythrough', () => {
-      console.log('Video can play through');
-      setIsVideoReady(true);
-    });
-
-    video.addEventListener('error', handleError);
-
-    // Try loading the current source
-    video.src = sources[currentSourceIndex];
-
-    return () => {
-      video.removeEventListener('canplaythrough', () => {});
-      video.removeEventListener('error', handleError);
-    };
-  }, [currentSourceIndex]);
 
   useEffect(() => {
     let interval: number;
@@ -228,6 +203,10 @@ function App() {
             }}
             onLoadedData={() => {
               console.log('Video data loaded');
+              setIsVideoReady(true);
+            }}
+            onCanPlay={() => {
+              console.log('Video can play');
               setIsVideoReady(true);
             }}
             aria-label="Anime transformation video"

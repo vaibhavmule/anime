@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="manifest" href="/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>✨ Free AI Anime Generator ✨</title>
     
@@ -29,27 +28,9 @@
     <meta property="twitter:image" content="https://res.cloudinary.com/lifemaker/image/upload/v1743460664/ChatGPT_Image_Apr_1_2025_12_37_23_AM_fmvyh1.png">
     <meta property="twitter:creator" content="@vaibhavmule">
     
-    <!-- Theme Color -->
-    <meta name="theme-color" content="#9333EA">
-    
     <!-- Module preload polyfill -->
     <script type="module">
       import 'vite/modulepreload-polyfill'
-    </script>
-
-    <!-- Service Worker Registration -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-              console.log('ServiceWorker registration successful');
-            })
-            .catch(err => {
-              console.log('ServiceWorker registration failed: ', err);
-            });
-        });
-      }
     </script>
   </head>
   <body>

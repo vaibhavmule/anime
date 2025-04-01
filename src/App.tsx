@@ -164,9 +164,25 @@ function App() {
   if (showRickroll) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-400 to-red-400 flex flex-col items-center justify-center p-4 text-center relative">
-        {isVideoLoaded ? (
+        <video 
+          autoPlay 
+          loop
+          controls
+          crossOrigin="anonymous"
+          className="w-full max-w-lg rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border-4 border-white/30"
+          src={sources[currentSourceIndex]}
+          onError={(e) => {
+            console.error('Video playback error:', e);
+            tryNextSource();
+          }}
+          onLoadedData={() => {
+            setIsVideoLoaded(true);
+          }}
+          aria-label="Anime transformation video"
+        />
+        {isVideoLoaded && (
           <>
-            <div className="animate-bounce">
+            <div className="animate-bounce mt-8">
               <h1 className="text-4xl font-black mb-4 text-white drop-shadow-lg bg-black/20 px-8 py-4 rounded-2xl backdrop-blur-sm">
                 OMG! You got rickrolled! 🤪
               </h1>
@@ -206,24 +222,7 @@ function App() {
               </p>
             </div>
           </>
-        ) : null}
-        <video 
-          autoPlay 
-          loop
-          muted
-          controls
-          crossOrigin="anonymous"
-          className="w-full max-w-lg rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border-4 border-white/30"
-          src={sources[currentSourceIndex]}
-          onError={(e) => {
-            console.error('Video playback error:', e);
-            tryNextSource();
-          }}
-          onLoadedData={() => {
-            setIsVideoLoaded(true);
-          }}
-          aria-label="Anime transformation video"
-        />
+        )}
       </div>
     );
   }

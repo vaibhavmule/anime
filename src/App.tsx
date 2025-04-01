@@ -7,7 +7,6 @@ function App() {
   const [showRickroll, setShowRickroll] = useState(false);
   const [progress, setProgress] = useState(0);
   const [currentStage, setCurrentStage] = useState(0);
-  const [isVideoReady, setIsVideoReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isBeforeImageLoaded, setIsBeforeImageLoaded] = useState(false);
@@ -35,10 +34,8 @@ function App() {
   const tryNextSource = () => {
     if (currentSourceIndex < sources.length - 1) {
       setCurrentSourceIndex(prev => prev + 1);
-      setIsVideoReady(false); // Reset video ready state when trying next source
     } else {
       console.error('All video sources failed to load');
-      setIsVideoReady(true); // Still show the video even if all sources fail
     }
   };
 
@@ -190,7 +187,6 @@ function App() {
         <video 
           autoPlay 
           loop
-          muted={isMobile}
           playsInline
           controls
           crossOrigin="anonymous"

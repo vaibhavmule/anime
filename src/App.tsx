@@ -145,7 +145,7 @@ function App() {
   const handleShare = async () => {
     const shareData = {
       title: 'Gibhili Style Photo Image for Free 🎨',
-      text: 'Turn your photo into a cute anime picture! Just upload your photo and watch the magic happen ✨',
+      text: 'Gibhili Style Photo Image for Free! Just upload your photo and watch the magic happen ✨',
       url: 'https://anime-vibe.vercel.app/'
     };
 

@@ -52,6 +52,7 @@ function App() {
     };
 
     video.addEventListener('canplaythrough', () => {
+      console.log('Video can play through');
       setIsVideoReady(true);
     });
 
@@ -216,6 +217,7 @@ function App() {
             autoPlay 
             loop
             muted={isMobile}
+            playsInline
             controls
             crossOrigin="anonymous"
             className="w-full max-w-lg rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border-4 border-white/30"
@@ -224,12 +226,16 @@ function App() {
               console.error('Video playback error:', e);
               tryNextSource();
             }}
+            onLoadedData={() => {
+              console.log('Video data loaded');
+              setIsVideoReady(true);
+            }}
             aria-label="Anime transformation video"
           />
         ) : (
           <div className="w-full max-w-lg h-[300px] bg-white/20 backdrop-blur-sm rounded-2xl flex flex-col items-center justify-center gap-4">
             <Loader2 className="w-12 h-12 text-white animate-spin" />
-            <p className="text-white/80 text-sm">Loading the surprise...</p>
+            <p className="text-white/80 text-sm">Loading the surprise... {isMobile ? '(Mobile)' : '(Desktop)'}</p>
             <div className="w-48 h-2 bg-white/20 rounded-full overflow-hidden">
               <div className="w-full h-full bg-white/40 animate-pulse" />
             </div>
